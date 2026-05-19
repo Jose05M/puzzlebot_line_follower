@@ -42,7 +42,7 @@ class LineFollowerController(Node):
     # Speed multipliers per traffic state
     SPEED_FACTOR = {
         'GREEN':   1.0,
-        'YELLOW':  0.4,
+        'YELLOW':  0.5,
         'RED':     0.0,
         'UNKNOWN': 1.0,
     }

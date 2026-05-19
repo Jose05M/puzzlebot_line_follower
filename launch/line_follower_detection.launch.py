@@ -36,18 +36,18 @@ def generate_launch_description():
         output='screen',
         emulate_tty=True,
     )
-
-    odom_node = Node(
+    
+    line_node = Node(
         package='puzzlebot_line_follower',
-        executable='puzzlebot_odometry',
-        name='puzzlebot_odometry',
+        executable='line_detector',
+        name='line_detector',
         output='screen',
         emulate_tty=True,
     )
 
     return LaunchDescription([
         config_arg,
-        odom_node,
+        line_node,
         detector_node,
         controller_node,
     ])
