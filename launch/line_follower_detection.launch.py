@@ -30,8 +30,8 @@ def generate_launch_description():
 
     controller_node = Node(
         package='puzzlebot_line_follower',
-        executable='navigation_controller',
-        name='navigation_controller',
+        executable='line_follower_controller',
+        name='line_follower_controller',
         parameters=[config_file],
         output='screen',
         emulate_tty=True,

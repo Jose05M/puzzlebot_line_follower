@@ -33,9 +33,9 @@ setup(
     entry_points={
         'console_scripts': [
             'traffic_light_detector = puzzlebot_line_follower.traffic_light_detector:main',
-            'navigation_controller  = puzzlebot_line_follower.navigation_controller:main',
+            'line_follower_controller  = puzzlebot_line_follower.line_follower_controller:main',
             'puzzlebot_odometry  = puzzlebot_line_follower.puzzlebot_odometry:main',
-            'line_follower =  puzzlebot_line_follower.line_follower:main',
+            'line_detector =  puzzlebot_line_follower.line_detector:main',
         ],
     },
 )
