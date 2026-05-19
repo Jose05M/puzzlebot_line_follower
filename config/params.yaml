@@ -1,0 +1,49 @@
+# params.yaml
+# -----------
+# All tunable parameters for the MCR2 Half-Term Challenge.
+# Change values here without touching source code.
+# Load via the launch file or:  ros2 run <pkg> <node> --ros-args --params-file params.yaml
+
+traffic_light_detector:
+  ros__parameters:
+    # ---- Vision pipeline --------------------------------------------------
+    kernel_size:       5          # morphological kernel size (px, odd number)
+    min_blob_area:     200        # minimum contour area (px²) to accept as a blob
+    min_circularity:   0.40       # 4πA/P² — reject non-circular detections
+
+    # ---- HSV ranges are set as code constants (edit traffic_light_detector.py
+    #      if the simulator lighting differs significantly from the defaults).
+
+    # ---- Topics -----------------------------------------------------------
+    camera_topic:      /video_source/raw
+    state_topic:       /traffic_light/state
+    debug_image:       true        # set false to reduce CPU load in final run
+
+navigation_controller:
+  ros__parameters:
+    # ---- Waypoints (flat list: x0 y0 x1 y1 ...) --------------------------
+    # Change these to match your simulation environment.
+    waypoints:
+      - 1.5
+      - 0.0
+      - 1.5
+      - 1.5
+      - 0.0
+      - 1.5
+      - 0.0
+      - 0.0
+
+    # ---- Controller gains -------------------------------------------------
+    k_linear:          0.9        # proportional gain for linear velocity
+    k_angular:         2.0        # proportional gain for angular velocity
+
+    # ---- Limits -----------------------------------------------------------
+    max_linear_vel:    0.3        # m/s  — robot top speed (GREEN light)
+    max_angular_vel:   1.2        # rad/s
+    goal_tolerance:    0.02       # metres — radius of acceptance around waypoint
+    heading_threshold: 0.20       # rad (~20°) — align before driving forward
+
+    # ---- Topics -----------------------------------------------------------
+    cmd_vel_topic:     /cmd_vel
+    odom_topic:        /odom
+    state_topic:       /traffic_light/state
