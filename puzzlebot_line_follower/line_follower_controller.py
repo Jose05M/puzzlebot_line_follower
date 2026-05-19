@@ -1,6 +1,8 @@
 #!/usr/bin/env python3
 """
 line_follower_controller.py
+
+controller_node
 ------------------------
 ROS 2 node that drives a differential-drive robot through a list of waypoints
 while obeying traffic light commands published by traffic_light_detector.py.
