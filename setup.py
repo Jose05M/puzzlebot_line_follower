@@ -36,6 +36,8 @@ setup(
             'line_follower_controller  = puzzlebot_line_follower.line_follower_controller:main',
             'puzzlebot_odometry  = puzzlebot_line_follower.puzzlebot_odometry:main',
             'line_detector =  puzzlebot_line_follower.line_detector:main',
+            'follower_node =  puzzlebot_line_follower.follower_node:main',
+            'line_det =  puzzlebot_line_follower.line_det:main',
         ],
     },
 )
