@@ -52,7 +52,7 @@ class LineFollowerController(Node):
     def __init__(self):
         super().__init__('line_follower_controller')
 
-        self.declare_parameter('linear_speed', 0.15)
+        self.declare_parameter('linear_speed', 0.10)
         self.declare_parameter('kp', 0.0035)
         self.declare_parameter('kd', 0.0010)
         self.declare_parameter('max_angular_vel', 1.5)
