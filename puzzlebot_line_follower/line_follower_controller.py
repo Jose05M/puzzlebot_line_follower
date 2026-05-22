@@ -50,15 +50,19 @@ class LineFollowerController(Node):
     def __init__(self):
         super().__init__('line_follower_controller')
 
-        self.declare_parameter('linear_speed', 0.15)
+        self.declare_parameter('linear_speed', 0.10)
+        self.declare_parameter('curve_speed', 0.07)
+        self.declare_parameter('curve_threshold', 30.0)
         self.declare_parameter('kp', 0.0035)
-        self.declare_parameter('kd', 0.0010)
+        self.declare_parameter('kd', 0.0005)
         self.declare_parameter('max_angular_vel', 1.5)
         self.declare_parameter('cmd_vel_topic',    '/cmd_vel')
         self.declare_parameter('line_error_topic', '/line_error')
         self.declare_parameter('state_topic',      '/traffic_light/state')
 
         self.linear_speed = self.get_parameter('linear_speed').value
+        self.curve_speed = self.get_parameter('curve_speed').value
+        self.curve_threshold = self.get_parameter('curve_threshold').value
         self.kp = self.get_parameter('kp').value
         self.kd = self.get_parameter('kd').value
         self.w_max = self.get_parameter('max_angular_vel').value
@@ -73,11 +77,12 @@ class LineFollowerController(Node):
         self.last_motion_state = ""
         self.current_linear_vel = 0.0
         self.acceleration = 0.01   # rampa de velocidad
+        self.curve_state = False
         
 
         # ---- ROS I/O -------------------------------------------------------
         self.pub_vel  = self.create_publisher(Twist, cmd_topic, 10)
-        self.sub_line = self.create_subscription(Float32,line_topic,self._line_callback,10)
+        self.sub_line = self.create_subscription(Float32,line_topic,self._line_callback,1)
         self.sub_tl   = self.create_subscription(String, state_topic, self._tl_callback, 10)
 
         # Control loop at 20 Hz
@@ -107,6 +112,7 @@ class LineFollowerController(Node):
         # ------------------------------------------------------------
 
         derivative = self.line_error - self.prev_error
+        derivative = np.clip(derivative, -50, 50)
 
         angular_vel = -(
             self.kp * self.line_error +
@@ -122,8 +128,29 @@ class LineFollowerController(Node):
             self.w_max
         )
 
-        # Constant linear speed
-        target_linear_vel = self.linear_speed
+        # ------------------------------------------------------------
+        # Curve Detection
+        # ------------------------------------------------------------
+
+        curve_detected = abs(derivative) > self.curve_threshold
+        if curve_detected != self.curve_state:
+            if curve_detected:
+                self.get_logger().info("↩️ Curva detectada")
+            else:
+                self.get_logger().info("➡️ Recta detectada")
+            self.curve_state = curve_detected
+
+        # ------------------------------------------------------------
+        # Adaptive Linear Speed
+        # ------------------------------------------------------------
+
+        if curve_detected:
+
+            target_linear_vel = self.curve_speed
+
+        else:
+
+            target_linear_vel = self.linear_speed
 
         # -------- Acceleration Ramp --------
 
