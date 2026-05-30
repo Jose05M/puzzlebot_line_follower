@@ -75,7 +75,7 @@ class LineDetector(Node):
 
         # ════════════════════════════════════════════════════════════════════
         # SEGUIDOR DE LÍNEA
-        # ════════════════════════════════════════════════════════════════════
+        # ══════ ══════════════════════════════════════════════════════════════
         roi_masked    = cv2.bitwise_and(roi, roi, mask=self.mask)
         gray          = cv2.cvtColor(roi_masked, cv2.COLOR_BGR2GRAY)
         sharpened     = cv2.filter2D(gray, -1, self.sharpen_kernel)
