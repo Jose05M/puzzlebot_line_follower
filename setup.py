@@ -32,11 +32,13 @@ setup(
     },
     entry_points={
         'console_scripts': [
-            'traffic_light_detector = puzzlebot_line_follower.traffic_light_detector:main',
-            'line_follower_controller  = puzzlebot_line_follower.line_follower_controller:main',
-            'line_detector =  puzzlebot_line_follower.line_detector:main',
-            'follower_node =  puzzlebot_line_follower.follower_node:main',
-            'line_det =  puzzlebot_line_follower.line_det:main',
+            'traffic_light_detector     = puzzlebot_line_follower.traffic_light_detector:main',
+            'line_follower_controller   = puzzlebot_line_follower.line_follower_controller:main',
+            'usb_camera_publisher       = puzzlebot_line_follower.usb_camera_publisher:main',
+            'line_detector              =  puzzlebot_line_follower.line_detector:main',
+            'follower_node              =  puzzlebot_line_follower.follower_node:main',
+            'line_det                   =  puzzlebot_line_follower.line_det:main',
+            'line_follower                   =  puzzlebot_line_follower.line_follower:main',
         ],
     },
 )
