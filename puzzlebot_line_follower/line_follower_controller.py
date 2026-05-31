@@ -7,7 +7,6 @@ from std_msgs.msg import String
 from std_msgs.msg import Float32
 import numpy as np
 
-
 class LineFollowerController(Node):
     """
     Point-to-point proportional controller with traffic light awareness.
@@ -94,7 +93,7 @@ class LineFollowerController(Node):
         derivative = self.line_error - self.prev_error
         derivative = np.clip(derivative, -70, 70)
 
-        angular_vel = -(kp * self.line_error + self.kd * derivative)
+        angular_vel = (kp * self.line_error + self.kd * derivative)
         self.prev_error = self.line_error
 
         # Saturation
