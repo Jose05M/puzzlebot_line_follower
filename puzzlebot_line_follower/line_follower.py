@@ -8,7 +8,6 @@ from rclpy.node import Node
 from sensor_msgs.msg import Image
 from std_msgs.msg import Float32
 
-
 class LineFollower(Node):
 
     def __init__(self):
@@ -35,7 +34,6 @@ class LineFollower(Node):
     # IMAGE CALLBACK
     def image_callback(self, msg):
         frame = np.frombuffer(msg.data,dtype=np.uint8).reshape((msg.height, msg.width, 3))
-
         frame = cv2.resize(frame,(640, 480))
 
         height, width = frame.shape[:2]
@@ -134,8 +132,8 @@ class LineFollower(Node):
             final_error = np.average(errors,weights=valid_weights)
 
             # SMOOTHING
-            alpha = 0.7
-            final_error = (alpha * self.last_error +(1 - alpha) * final_error)
+            #alpha = 0.7 #0.5
+            #final_error = (alpha * self.last_error +(1 - alpha) * final_error)
             self.last_error = final_error
 
         # PUBLICAR ERROR
@@ -145,7 +143,6 @@ class LineFollower(Node):
 
         # DEBUG
         if self.debug_view:
-
             # centro imagen
             cv2.line(output,(center_image, 0),(center_image, roi_height),(255, 255, 255),2)
             cv2.putText(output,f'Error: {final_error:.1f}',(20, 40),cv2.FONT_HERSHEY_SIMPLEX,1,(255, 255, 255),2)
@@ -153,7 +150,6 @@ class LineFollower(Node):
             cv2.imshow("Binary",binary)
             cv2.imshow("real",frame)
             cv2.waitKey(1)
-
 
 def main(args=None):
     rclpy.init(args=args)
